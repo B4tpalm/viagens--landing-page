@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripMe - Sua Próxima Aventura Começa Aqui</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 1rem 0;
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        nav ul li {
+            margin: 0 2rem;
+        }
+        nav ul li a {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        nav ul li a:hover {
+            background: #e67e22;
+            transform: translateY(-3px);
+        }
+        #home {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('https://images.unsplash.com/photo-1519923047716-2b52d9adb3fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+            background-image: fallback(rgba(0,0,0,0.5), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 600'%3E%3Crect width='1200' height='600' fill='%23a8d5ba'/%3E%3C!-- Céu --%3E%3Crect y='300' width='1200' height='300' fill='%234a7c59'/%3E%3C!-- Montanhas --%3E%3Cpath d='M0 300 Q150 200 300 300 T1200 300' fill='%23345c43'/%3E%3C!-- Lago --%3E%3Crect x='100' y='400' width='1000' height='200' fill='%236699cc' rx='50'/%3E%3C!-- Casas --%3E%3Crect x='200' y='350' width='60' height='80' fill='%23ffcc99' rx='5'/%3E%3Crect x='300' y='360' width='50' height='70' fill='%23ff9999' rx='5'/%3E%3Crect x='400' y='340' width='70' height='90' fill='%23ccff99' rx='5'/%3E%3Cpolygon points='230,350 260,350 245,330' fill='%23cc6600'/%3E%3Cpolygon points='325,360 350,360 337.5,340' fill='%23cc6600'/%3E%3Cpolygon points='435,340 470,340 452.5,320' fill='%23cc6600'/%3E%3C!-- Chaminés --%3E%3Crect x='220' y='330' width='5' height='20' fill='%23884400'/%3E%3Crect x='320' y='340' width='5' height='20' fill='%23884400'/%3E%3C/rect%3E%3C/svg%3E"));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .hero-text h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+        }
+        .hero-text p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.8);
+        }
+        section {
+            padding: 120px 10%;
+            min-height: 80vh;
+        }
+        #minhaviagem {
+            background: #f9f9f9;
+        }
+        #nosencontre {
+            background: #fff;
+        }
+        #conselhos {
+            background: #2c3e50;
+            color: white;
+        }
+
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background: #e67e22;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .cards {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            background: white;
+            width: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            /* Fallback SVG para cada card se a img externa falhar */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23e0f7fa'/%3E%3Crect y='100' width='300' height='100' fill='%234d9a7c'/%3E%3C!-- Montanha --%3E%3Cpath d='M0 100 Q75 50 150 100 Q225 50 300 100' fill='%23386d4f'/%3E%3C!-- Casas pequenas --%3E%3Crect x='50' y='120' width='30' height='40' fill='%23ffcc99' rx='3'/%3E%3Crect x='150' y='130' width='25' height='35' fill='%23ff9999' rx='3'/%3E%3Crect x='220' y='110' width='35' height='45' fill='%23ccff99' rx='3'/%3E%3Cpolygon points='65,120 80,120 72.5,105' fill='%23cc6600'/%3E%3Cpolygon points='162.5,130 175,130 168.75,115' fill='%23cc6600'/%3E%3Cpolygon points='237.5,110 255,110 246.25,95' fill='%23cc6600'/%3E%3C/rect%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+        }
+        .card-content {
+            padding: 1.5rem;
+        }
+        .card h3 {
+            margin-bottom: 1rem;
+            color: #e67e22;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #aaa;
+            text-align: center;
+            padding: 3rem;
+            font-size: 0.9rem;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#minhaviagem">Minha Viagem</a></li>
+            <li><a href="#nosencontre">Nos Encontre</a></li>
+            <li><a href="#conselhos">Conselhos</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home">
+            <div class="hero-text">
+                <h1>TripMe</h1>
+                <p>Descubra vilarejos encantadores, paisagens de tirar o fôlego e viva experiências que ficarão para sempre na memória.</p>
+            </div>
+        </section>
+
+        <section id="minhaviagem">
+            <h2>Minha Viagem</h2>
+            <div class="cards">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1573155992899-d5253e6f8d38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Vilarejo nas montanhas" loading="lazy">
+                    <div class="card-content">
+                        <h3>Hallstatt, Áustria</h3>
+                        <p>Um dos lugares mais fotografados do mundo, com casinhas coloridas à beira de um lago cristalino.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1519904981064-b0cfaffc8308?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ruas de pedra em vilarejo" loading="lazy">
+                    <div class="card-content">
+                        <h3>Colmar, França</h3>
+                        <p>Conhecida como a “Pequena Veneza”, repleta de canais e casas em estilo enxaimel.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1587560690695-64a4b56a3086?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Vilarejo italiano" loading="lazy">
+                    <div class="card-content">
+                        <h3>Cinque Terre, Itália</h3>
+                        <p>Cinco vilarejos coloridos pendurados nas falésias do Mediterrâneo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="nosencontre">
+            <h2>Nos Encontre</h2>
+            <p style="text-align:center; font-size:1.3rem; max-width:800px; margin:0 auto 3rem;">
+                Estamos prontos para planejar a viagem dos seus sonhos. Entre em contato ou visite uma de nossas agências.
+            </p>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-content">
+                        <h3>São Paulo - SP</h3>
+                        <p>Av. Paulista, 1578<br>Bela Vista<br>📞 (11) 3280-0000</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <h3>Rio de Janeiro - RJ</h3>
+                        <p>Av. Atlântica, 4240<br>Copacabana<br>📞 (21) 3000-1234</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <h3>Online 24h</h3>
+                        <p>✉️ contato@tripme.com.br<br>💬 WhatsApp: (11) 98765-4321</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conselhos">
+            <h2>Conselhos para Viajar Melhor</h2>
+            <div class="cards">
+                <div class="card" style="background:rgba(255,255,255,0.1);">
+                    <div class="card-content">
+                        <h3>Viaje na baixa temporada</h3>
+                        <p>Preços até 50% mais baixos e muito menos filas nas atrações.</p>
+                    </div>
+                </div>
+                <div class="card" style="background:rgba(255,255,255,0.1);">
+                    <div class="card-content">
+                        <h3>Reserve com antecedência</h3>
+                        <p>Passagens e hospedagens costumam subir de preço quanto mais próximo da data.</p>
+                    </div>
+                </div>
+                <div class="card" style="background:rgba(255,255,255,0.1);">
+                    <div class="card-content">
+                        <h3>Leve uma mochila leve</h3>
+                        <p>Em vilarejos europeus, ruas de pedra e escadas são comuns. Menos peso = mais conforto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Felipe F. Deprá - Todos os direitos reservados. Sua aventura começa aqui.</p>
+    </footer>
+
+</body>
+</html>
